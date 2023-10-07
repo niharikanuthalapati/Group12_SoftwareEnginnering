@@ -1,0 +1,59 @@
+.data-import-container {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+}
+
+.drag-drop-section {
+    border: 1px solid #e0e0e0;
+    padding: 50px;
+    border-radius: 10px;
+    width: 50%;
+    text-align: center;
+}
+
+.drag-drop-box {
+    border: 2px dashed #d0d0d0;
+    padding: 50px;
+    border-radius: 10px;
+    margin: 20px 0;
+    position: relative;
+    background-color: #ffe5e5;
+}
+
+.icon-box {
+    display: inline-block;
+    font-size: 30px;
+    color: #8a8a8a;
+}
+
+.icon-box i {
+    display: block;
+    margin-bottom: 15px;
+}
+
+.btn-group {
+    display: flex;
+    justify-content: space-between;
+    max-width: 300px;
+    margin: 20px auto;
+}
+
+.btn-cancel, .btn-classify {
+    padding: 10px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+.btn-cancel {
+    background-color: #888;
+    color: #fff;
+}
+
+.btn-classify {
+    background-color: #6c63ff;
+    color: #fff;
+}
