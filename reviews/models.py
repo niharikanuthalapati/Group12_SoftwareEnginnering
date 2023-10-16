@@ -107,3 +107,18 @@ class Report(models.Model):
 
     def __str__(self):
         return f"Report for {self.user.username} at {self.generated_at}"
+
+
+
+
+class ReviewFeedback(models.Model):
+    email = models.EmailField()
+    starRating = models.IntegerField()
+    comment = models.TextField()
+    createdDate = models.DateTimeField(auto_now_add=True)
+
+
+class InterfaceFeedback(models.Model):
+    email = models.EmailField()
+    comment = models.TextField()
+    createdDate = models.DateTimeField(auto_now_add=True)

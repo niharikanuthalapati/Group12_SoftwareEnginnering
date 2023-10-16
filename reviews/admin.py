@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CustomUser, Product, Review, Feedback, Report
+from .models import CustomUser, Product, Review, Feedback, Report, ReviewFeedback, InterfaceFeedback
 
 @admin.register(CustomUser)
 class CustomUserAdmin(admin.ModelAdmin):
@@ -20,3 +20,12 @@ class FeedbackAdmin(admin.ModelAdmin):
 @admin.register(Report)
 class ReportAdmin(admin.ModelAdmin):
     list_display = ('user', 'generated_at')
+
+@admin.register(ReviewFeedback)
+class ReviewFeedbackAdmin(admin.ModelAdmin):
+    list_display = ('email', 'starRating', 'comment', 'createdDate')
+
+
+@admin.register(InterfaceFeedback)
+class ReviewFeedbackAdmin(admin.ModelAdmin):
+    list_display = ('email', 'comment', 'createdDate')

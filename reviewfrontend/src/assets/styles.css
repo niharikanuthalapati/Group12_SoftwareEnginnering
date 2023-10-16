@@ -1,3 +1,87 @@
+/* Common styles */
+
+.logo {
+    display: block;
+    margin: 0 auto;
+    height: 20%;
+    width: 80%;
+    padding: 10px 0;
+}
+
+.form-label,
+.button-group .form-label {
+    font-weight: 500;
+}
+
+.btn,
+.button-group .btn {
+    width: 40%;
+    background-Color: #7328b0;
+    color: white;
+    margin: 0 30px;
+}
+
+.mt-5 {
+    margin-top: 0 !important;
+}
+
+.welcome-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.logo-container img {
+    height: 60%;
+    margin-right: 20px;
+}
+
+.button-container {
+    display: flex;
+    gap: 100px;
+}
+
+.login-button,
+.signin-button {
+    padding: 15px 40px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    background-color: #7328b0;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.login-button:hover,
+.signin-button:hover {
+    background-color: #4e43c8;
+}
+
+.card-header,
+.button-group .card-header {
+    background-color: teal;
+    color: white;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Styles from styles.css */
+
 .container {
     max-width: 1200px;
 }
@@ -25,6 +109,10 @@ h1 {
     margin: auto;
     text-align: center;
     font-family: arial;
+}
+
+.card-width {
+    max-width: none !important;
 }
 
 .card:hover {

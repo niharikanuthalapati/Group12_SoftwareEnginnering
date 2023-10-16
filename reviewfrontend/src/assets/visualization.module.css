@@ -1,0 +1,51 @@
+.container {
+    display: flex;
+    justify-content: center;
+    padding: 20px 100px;
+    height: calc(100vh - 60px); /* Assuming Navbar is around 60px in height */
+}
+
+.sidebar {
+    flex: 1;
+    max-width: 250px;
+    margin-right: 20px;
+}
+
+.contentArea {
+    flex: 3;
+    height: 400px;
+    display: flex;
+    align-items: flex-start;  /* This will vertically center the content within the contentArea */
+    justify-content: center;  /* This will horizontally center the content within the contentArea */
+}
+
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table th,
+.table td {
+    border: 1px solid #e0e0e0;
+    padding: 8px;
+}
+
+.table th {
+    background-color: #f7f7f7;
+}
+
+.list-group-item.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.list-group-item {
+    cursor: pointer;
+}
+
+.list-group-item:hover {
+    background-color: #f7f7f7;
+}

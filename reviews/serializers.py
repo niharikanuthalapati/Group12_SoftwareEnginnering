@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomUser, Product, Review, Feedback, Report
+from .models import CustomUser, Product, Review, Feedback, Report, ReviewFeedback, InterfaceFeedback
 from django.contrib.auth import get_user_model
 
 
@@ -18,6 +18,18 @@ class CustomUserSerializer(serializers.ModelSerializer):
             dob=validated_data['dob']
         )
         return user
+
+
+class ReviewFeedbackSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReviewFeedback
+        fields = ['email', 'starRating', 'comment']
+
+class InterfaceFeedbackSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InterfaceFeedback
+        fields = ['email', 'comment']
+
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -38,3 +50,4 @@ class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report
         fields = '__all__'
+

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../assets/main.css';
 import userlogo from '../assets/logo.png'
 import { useUser } from '../UserContext';
 
@@ -47,7 +46,7 @@ const Login = () => {
             <div className="row justify-content-center">
                 <div className="col-md-6 mt-5">
                 <img src={userlogo} alt="User Reviews" className="logo"/>
-                    <div className="card">
+                    <div className="card card-width">
                         <div className="card-header">
                             <h5 className="text-center">LOGIN</h5>
                         </div>

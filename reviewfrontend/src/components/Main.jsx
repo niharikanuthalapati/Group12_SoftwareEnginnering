@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../assets/main.css';
 import userlogo from '../assets/logo.png'
 
 

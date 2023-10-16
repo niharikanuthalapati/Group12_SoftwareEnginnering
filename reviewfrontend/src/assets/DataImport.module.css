@@ -1,4 +1,6 @@
-.data-import-container {
+/* DataImport.module.css */
+
+.container {
     margin-top: 50px;
     display: flex;
     justify-content: center;
@@ -6,7 +8,7 @@
     height: 70vh;
 }
 
-.drag-drop-section {
+.dragDropSection {
     border: 1px solid #e0e0e0;
     padding: 50px;
     border-radius: 10px;
@@ -14,7 +16,7 @@
     text-align: center;
 }
 
-.drag-drop-box {
+.dragDropBox {
     border: 2px dashed #d0d0d0;
     padding: 50px;
     border-radius: 10px;
@@ -23,37 +25,35 @@
     background-color: #ffe5e5;
 }
 
-.icon-box {
+.iconBox {
     display: inline-block;
     font-size: 30px;
     color: #8a8a8a;
 }
 
-.icon-box i {
-    display: block;
-    margin-bottom: 15px;
+.errorMessage {
+    color: red;
+    margin: 10px 0;
 }
 
-.btn-group {
-    display: flex;
-    justify-content: space-between;
-    max-width: 300px;
-    margin: 20px auto;
+.btn {
+    margin: 5px;
 }
 
-.btn-cancel, .btn-classify {
-    padding: 10px 30px;
+.btnCancel {
+    background-color: red;
+    color: white;
     border: none;
+    padding: 10px 20px;
     border-radius: 5px;
-    font-size: 18px;
+    cursor: pointer;
 }
 
-.btn-cancel {
-    background-color: #888;
-    color: #fff;
-}
-
-.btn-classify {
-    background-color: #6c63ff;
-    color: #fff;
+.btnClassify {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
 }

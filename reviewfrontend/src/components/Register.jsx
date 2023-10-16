@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../assets/main.css';
 import userlogo from '../assets/logo.png'
 
 const Register = () => {
@@ -44,7 +43,7 @@ const Register = () => {
             <div className="row justify-content-center">
                 <div className="col-md-6 mt-5">
                 <img src={userlogo} alt="User Reviews" className="logo"/>
-                    <div className="card">
+                    <div className="card card-width">
                         <div className="card-header">
                             REGISTER
                         </div>
