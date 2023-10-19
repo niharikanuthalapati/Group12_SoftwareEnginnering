@@ -8,7 +8,7 @@ User review classifications
     Create a virtual environment: python -m venv projectenv
     Activate the virtual environment: source ..\projectenv/bin/activate (Linux/macOS) or ..\projectenv\Scripts\activate (Windows).
 
-    $ pip install -r requirements.txt
+    pip install -r requirements.txt
 
     Run migrations: python manage.py makemigrations and python manage.py migrate
 
