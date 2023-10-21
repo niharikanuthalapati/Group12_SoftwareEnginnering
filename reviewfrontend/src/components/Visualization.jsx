@@ -1,32 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../shared/Navbar';
 import { Pie, Bar } from 'react-chartjs-2';
+import { useNavigate } from 'react-router-dom';
 import 'chart.js/auto';
 import styles from '../assets/visualization.module.css';
 
 const Visualization = () => {
-    const [selectedVisualization, setSelectedVisualization] = useState('TextFormat');
+    const navigate = useNavigate();
+    const [selectedVisualization, setSelectedVisualization] = useState('PieChart');
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
+    const sentiment_summary = JSON.parse(localStorage.getItem('sentiment_summary'))
     useEffect(() => {
-        fetch('http://127.0.0.1:8000/visualization')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                setData(data);
-                setLoading(false);
-            })
-            .catch(error => {
-                setError(error);
-                setLoading(false);
-            });
-    }, []);
+        // fetch('http://127.0.0.1:8000/visualization')
+        //     .then(response => {
+        //         if (!response.ok) {
+        //             throw new Error('Network response was not ok');
+        //         }
+        //         return response.json();
+        //     })
+        //     .then(data => {
+        //         setData(data);
+        //         setLoading(false);
+        //     })
+        //     .catch(error => {
+        //         setError(error);
+        //         setLoading(false);
+        //     });
+        if (!sentiment_summary) navigate('/import');
+        setData(sentiment_summary);
+        setLoading(false);
+    }, []
+    );
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error.message}</div>;

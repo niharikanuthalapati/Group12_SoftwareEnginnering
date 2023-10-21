@@ -6,6 +6,7 @@ import userlogo from '../assets/logo.png'
 import { useUser } from '../UserContext';
 
 const Login = () => {
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [loginData, setLoginData] = useState({
         email: '',
         password: ''
@@ -26,7 +27,7 @@ const Login = () => {
         e.preventDefault();
     
         try {
-            const response = await axios.post('http://127.0.0.1:8000/login/', loginData);
+            const response = await axios.post(`${apiUrl}/login/`, loginData);
             if (response.status === 200 && response.data.user) {
                 setUser(response.data.user);
                 localStorage.setItem('user', JSON.stringify(response.data.user)); // Store user in local storage

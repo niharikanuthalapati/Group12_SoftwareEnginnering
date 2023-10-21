@@ -5,15 +5,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 const Feedback = () => {
-    const [activeOption, setActiveOption] = useState('System Feedback');
-    const [starRating, setStarRating] = useState(0);
+    const apiUrl = process.env.REACT_APP_API_URL;
+    const [activeOption, setActiveOption] = useState('User Interface Feedback');
+    const [star_rating, setStarRating] = useState(0);
     const [comment, setComment] = useState('');
     const [apiResponse, setApiResponse] = useState(null);
     const [apiError, setApiError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [systemFeedback, setSystemFeedback] = useState(null);
-    const userInfo = JSON.parse(localStorage.getItem('user'));
-    const email = userInfo.email;
+    const review_file = "test";
 
     const handleStarClick = (rating) => {
         setStarRating(rating);
@@ -40,7 +40,7 @@ const Feedback = () => {
     }
     
     const fetchSystemFeedback = async () => {
-        const apiEndpoint = 'http://127.0.0.1:8000/systemfeedback/';
+        const apiEndpoint = `${apiUrl}/systemfeedback/`;
         setLoading(true);
         try {
             const response = await fetch(apiEndpoint);
@@ -65,17 +65,17 @@ const Feedback = () => {
 
         switch (activeOption) {
             case 'User Interface Feedback':
-                apiEndpoint = 'http://127.0.0.1:8000/interfacefeedback/';
+                apiEndpoint = `${apiUrl}/interfacefeedback/`;
                 requestBody = {
-                    email,
+                    review_file,
                     comment
                 };
                 break;
             case 'Review feedback about input file':
-                apiEndpoint = 'http://127.0.0.1:8000/reviewfeedback/';
+                apiEndpoint = `${apiUrl}/reviewfeedback/`;
                 requestBody = {
-                    email,
-                    starRating,
+                    review_file,
+                    star_rating,
                     comment
                 };
                 break;
@@ -160,7 +160,7 @@ const Feedback = () => {
                                 <FontAwesomeIcon
                                     key={star}
                                     icon={faStar}
-                                    className={star <= starRating ? styles.activeStar : ''}
+                                    className={star <= star_rating ? styles.activeStar : ''}
                                     onClick={() => handleStarClick(star)}
                                 />
                             ))}
@@ -199,7 +199,7 @@ const Feedback = () => {
             <div className={styles.container}>
                 <div className={styles.sidebar}>
                     <ul className="list-group mb-5">
-                        <li className={activeOption === 'System Feedback' ? "list-group-item active" : "list-group-item"} onClick={() => handleActiveOptionChange('System Feedback')}>System Feedback</li>
+                        {/* <li className={activeOption === 'System Feedback' ? "list-group-item active" : "list-group-item"} onClick={() => handleActiveOptionChange('System Feedback')}>System Feedback</li> */}
                         <li className={activeOption === 'User Interface Feedback' ? "list-group-item active" : "list-group-item"} onClick={() => handleActiveOptionChange('User Interface Feedback')}>User Interface Feedback</li>
                         <li className={activeOption === 'Review feedback about input file' ? "list-group-item active" : "list-group-item"} onClick={() => handleActiveOptionChange('Review feedback about input file')}>Review feedback about input file</li>
                     </ul>

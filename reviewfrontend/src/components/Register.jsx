@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import userlogo from '../assets/logo.png'
 
 const Register = () => {
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [registerData, setRegisterData] = useState({
         first_name: '',
         last_name: '',
@@ -30,9 +31,10 @@ const Register = () => {
             return;
         }
         try {
-            await axios.post('http://127.0.0.1:8000/register/', registerData);
+            await axios.post(`${apiUrl}/register/`, registerData);
             alert('Registration successful');
             // Actions after successful registration
+            navigate('/login');
         } catch (error) {
             alert('Registration failed');
         }

@@ -9,11 +9,12 @@ import { jsPDF } from 'jspdf';
 
 function ReportGeneration() {
     const [reportData, setReportData] = useState(null);
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     // Fetch report data from API
     const fetchReportData = async () => {
         try {
-            let response = await axios.get('http://127.0.0.1:8000/generatereportdata/');
+            let response = await axios.get(`${apiUrl}/generatereportdata/`);
             setReportData(response.data);
         } catch (error) {
             console.error('Error fetching report data:', error);

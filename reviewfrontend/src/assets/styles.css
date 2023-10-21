@@ -154,3 +154,9 @@ h1 {
     align-items: center;
     gap: 10px;
 }
+
+
+.nav-item.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+}

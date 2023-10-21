@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import CustomUser, Product, Review, Feedback, Report, ReviewFeedback, InterfaceFeedback
+from .models import CustomUser, ReviewFile, FileOutput, UserInterfaceFeedback, ReviewFeedback, ReportGenerated
+
 from django.contrib.auth import get_user_model
 
 
@@ -20,34 +21,45 @@ class CustomUserSerializer(serializers.ModelSerializer):
         return user
 
 
+# class ReviewFeedbackSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = ReviewFeedback
+#         fields = ['email', 'starRating', 'comment']
+
+# class InterfaceFeedbackSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = InterfaceFeedback
+#         fields = ['email', 'comment']
+
+class ReviewFileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReviewFile
+        fields = '__all__'
+
+class FileOutputSerializer(serializers.ModelSerializer):
+    review_file = ReviewFileSerializer()
+    
+    class Meta:
+        model = FileOutput
+        fields = '__all__'
+
+class UserInterfaceFeedbackSerializer(serializers.ModelSerializer):
+    review_file = ReviewFileSerializer()
+
+    class Meta:
+        model = UserInterfaceFeedback
+        fields = ['review_file', 'comment']
+
 class ReviewFeedbackSerializer(serializers.ModelSerializer):
+    review_file = ReviewFileSerializer()
+
     class Meta:
         model = ReviewFeedback
-        fields = ['email', 'starRating', 'comment']
+        fields = ['review_file', 'star_rating', 'comment']
 
-class InterfaceFeedbackSerializer(serializers.ModelSerializer):
+class ReportGeneratedSerializer(serializers.ModelSerializer):
+    review_file = ReviewFileSerializer()
+
     class Meta:
-        model = InterfaceFeedback
-        fields = ['email', 'comment']
-
-
-class ProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Product
+        model = ReportGenerated
         fields = '__all__'
-
-class ReviewSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Review
-        fields = '__all__'
-
-class FeedbackSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Feedback
-        fields = '__all__'
-
-class ReportSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Report
-        fields = '__all__'
-

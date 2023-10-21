@@ -18,9 +18,9 @@ User review classifications
 
     Install Node.js and npm.
 
-    Download all dependencies: npm install
-
     cd reviewfrontend
+
+    Download all dependencies: npm install
 
     Runserver: npm start
 

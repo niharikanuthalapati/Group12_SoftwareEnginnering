@@ -25,11 +25,13 @@ SECRET_KEY = 'django-insecure-_2%oi1f1qc&y7cgyzu2b(2^33y3k9@n&u84cd8_7++d71j(_^p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['52.52.129.243', 'localhost', '127.0.0.1']
+
 # CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React default dev server
     "http://127.0.0.1:9000",  # Your custom server address
+    "http://52.52.129.243:3000"
     # Add any other origins that should be allowed
 ]
 
@@ -128,11 +130,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 # Static files (CSS, JavaScript, images)
+# settings.py
+
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'reviews', 'static'),
+]
 
 # Media files (uploaded by users, etc.)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

@@ -1,6 +1,5 @@
-from rest_framework import viewsets
-from .models import CustomUser, Product, Review, Feedback, Report, ReviewFeedback, InterfaceFeedback
-from .serializers import CustomUserSerializer, ProductSerializer, ReviewSerializer, FeedbackSerializer, ReportSerializer, ReviewFeedbackSerializer, InterfaceFeedbackSerializer
+from .models import CustomUser, ReviewFile, FileOutput, UserInterfaceFeedback, ReviewFeedback, ReportGenerated
+from .serializers import CustomUserSerializer, ReviewFileSerializer, FileOutputSerializer, UserInterfaceFeedbackSerializer, ReviewFeedbackSerializer, ReportGeneratedSerializer
 from django.contrib.auth import get_user_model, authenticate
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -8,6 +7,10 @@ from rest_framework.permissions import AllowAny
 from rest_framework.parsers import JSONParser
 from django.http import JsonResponse
 from rest_framework import status
+from reviews.Classifier import Classifier
+
+import time
+classifier = Classifier()
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -64,7 +67,7 @@ def review_feedback(request):
 def interface_feedback(request):
     if request.method == 'POST':
         data = JSONParser().parse(request)
-        serializer = InterfaceFeedbackSerializer(data=data)
+        serializer = UserInterfaceFeedbackSerializer(data=data)
 
         if serializer.is_valid():
             serializer.save()
@@ -88,18 +91,44 @@ def generate_report_data(request):
     }
     return Response(sample_data)
 
-class ProductViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
 
-class ReviewViewSet(viewsets.ModelViewSet):
-    queryset = Review.objects.all()
-    serializer_class = ReviewSerializer
 
-class FeedbackViewSet(viewsets.ModelViewSet):
-    queryset = Feedback.objects.all()
-    serializer_class = FeedbackSerializer
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def upload_review_file(request):
+    if request.method == 'POST':
+        serializer = ReviewFileSerializer(data=request.data)
+        if serializer.is_valid():
+            user_email = request.data.get('user_email')
+            serializer.save(user_email=user_email)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class ReportViewSet(viewsets.ModelViewSet):
-    queryset = Report.objects.all()
-    serializer_class = ReportSerializer
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def classify_data(request):
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        if data:
+            file_id = data.get('id')
+            try:
+                review_file = ReviewFile.objects.get(id=file_id)
+            except ReviewFile.DoesNotExist:
+                return Response({'error': 'File not found'}, status=status.HTTP_404_NOT_FOUND)
+
+            output = classifier.classify(data)
+            FileOutput.objects.create(
+                review_file=review_file,
+                review_text=output['review_text'],
+                sentiment_summary=output['sentiment_summary'],
+            )
+
+            time.sleep(5)  # Simulate some processing delay
+            response_data = {
+                'message': 'Data classified successfully!',
+                'classified_data': output,  # Include your classified data here
+            }
+            return Response(response_data, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'Data not provided'}, status=status.HTTP_400_BAD_REQUEST)
