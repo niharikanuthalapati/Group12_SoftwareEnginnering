@@ -160,3 +160,34 @@ h1 {
     pointer-events: none;
     opacity: 0.6;
 }
+
+.backgroundImage {
+    background-image: url('feedback.jpg');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+  }  
+
+
+  .auth-background {
+    background-image: url('auth.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+  }
+
+
+  .dashboard-background {
+    background-image: url('dashboard.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+  }
+
+  .welcome-text {
+    color: white;
+    font-weight: bold; /* bold text */
+
+  }

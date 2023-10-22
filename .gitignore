@@ -320,3 +320,4 @@ cython_debug/
 
 node_modules
 reviews/migrations
+media

@@ -13,7 +13,7 @@ const Feedback = () => {
     const [apiError, setApiError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [systemFeedback, setSystemFeedback] = useState(null);
-    const review_file = "test";
+    const review_file = JSON.parse(localStorage.getItem('uploadFile'))?.unique_id;
 
     const handleStarClick = (rating) => {
         setStarRating(rating);
@@ -128,7 +128,7 @@ const Feedback = () => {
                 );
             case 'User Interface Feedback':
                 return (
-                    <div className={styles.div}>
+                    <div className={styles.feedbackDiv}>
                         <h2 className={styles.h2}>Please give the feedback about our interface and the results</h2>
                         <label className={styles.label}>Comment:</label>
                         <textarea
@@ -151,7 +151,7 @@ const Feedback = () => {
                 );
             case 'Review feedback about input file':
                 return (
-                    <div className={styles.div}>
+                    <div className={styles.feedbackDiv}>
                         <h2 className={styles.h2}>Leave your review and rating about the input file:</h2>
 
                         <label className={styles.label}>Rating:</label>
@@ -194,22 +194,39 @@ const Feedback = () => {
     };
 
     return (
-        <div className={styles.div}>
-            <Navbar activePage="Feedback" />
-            <div className={styles.container}>
-                <div className={styles.sidebar}>
-                    <ul className="list-group mb-5">
-                        {/* <li className={activeOption === 'System Feedback' ? "list-group-item active" : "list-group-item"} onClick={() => handleActiveOptionChange('System Feedback')}>System Feedback</li> */}
-                        <li className={activeOption === 'User Interface Feedback' ? "list-group-item active" : "list-group-item"} onClick={() => handleActiveOptionChange('User Interface Feedback')}>User Interface Feedback</li>
-                        <li className={activeOption === 'Review feedback about input file' ? "list-group-item active" : "list-group-item"} onClick={() => handleActiveOptionChange('Review feedback about input file')}>Review feedback about input file</li>
-                    </ul>
-                </div>
-                <main className={styles.main}>
-                    {renderContent()}
-                </main>
+        <div className={`${styles.div}`}>
+          <Navbar activePage="Feedback" />
+          <div className={`${styles.container} backgroundImage`}>
+            <div className={styles.sidebar}>
+              <ul className="list-group mb-5">
+                <li className={activeOption === 'User Interface Feedback' ? "list-group-item active" : "list-group-item"} onClick={() => handleActiveOptionChange('User Interface Feedback')}>User Interface Feedback</li>
+                <li className={activeOption === 'Review feedback about input file' ? "list-group-item active" : "list-group-item"} onClick={() => handleActiveOptionChange('Review feedback about input file')}>Review feedback about input file</li>
+              </ul>
             </div>
+            <main className={styles.main}>
+              {renderContent()}
+            </main>
+          </div>
         </div>
-    );
+      );
+      
+    // return (
+    //     <div className={styles.div}>
+    //         <Navbar activePage="Feedback" />
+    //         <div className={styles.container}>
+    //             <div className={styles.sidebar}>
+    //                 <ul className="list-group mb-5">
+    //                     {/* <li className={activeOption === 'System Feedback' ? "list-group-item active" : "list-group-item"} onClick={() => handleActiveOptionChange('System Feedback')}>System Feedback</li> */}
+    //                     <li className={activeOption === 'User Interface Feedback' ? "list-group-item active" : "list-group-item"} onClick={() => handleActiveOptionChange('User Interface Feedback')}>User Interface Feedback</li>
+    //                     <li className={activeOption === 'Review feedback about input file' ? "list-group-item active" : "list-group-item"} onClick={() => handleActiveOptionChange('Review feedback about input file')}>Review feedback about input file</li>
+    //                 </ul>
+    //             </div>
+    //             <main className={styles.main}>
+    //                 {renderContent()}
+    //             </main>
+    //         </div>
+    //     </div>
+    // );
 }
 
 export default Feedback;

@@ -20,17 +20,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
         )
         return user
 
-
-# class ReviewFeedbackSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = ReviewFeedback
-#         fields = ['email', 'starRating', 'comment']
-
-# class InterfaceFeedbackSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = InterfaceFeedback
-#         fields = ['email', 'comment']
-
 class ReviewFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReviewFile
@@ -44,14 +33,15 @@ class FileOutputSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class UserInterfaceFeedbackSerializer(serializers.ModelSerializer):
-    review_file = ReviewFileSerializer()
+    review_file = serializers.PrimaryKeyRelatedField(queryset=ReviewFile.objects.all(), allow_null=True)
 
     class Meta:
         model = UserInterfaceFeedback
         fields = ['review_file', 'comment']
 
+
 class ReviewFeedbackSerializer(serializers.ModelSerializer):
-    review_file = ReviewFileSerializer()
+    review_file = serializers.PrimaryKeyRelatedField(queryset=ReviewFile.objects.all(), allow_null=True)
 
     class Meta:
         model = ReviewFeedback
@@ -63,3 +53,14 @@ class ReportGeneratedSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReportGenerated
         fields = '__all__'
+
+
+# class ReviewFeedbackSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = ReviewFeedback
+#         fields = ['email', 'starRating', 'comment']
+
+# class InterfaceFeedbackSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = InterfaceFeedback
+#         fields = ['email', 'comment']

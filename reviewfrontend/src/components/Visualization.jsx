@@ -10,24 +10,9 @@ const Visualization = () => {
     const [selectedVisualization, setSelectedVisualization] = useState('PieChart');
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error] = useState(null);
     const sentiment_summary = JSON.parse(localStorage.getItem('sentiment_summary'))
     useEffect(() => {
-        // fetch('http://127.0.0.1:8000/visualization')
-        //     .then(response => {
-        //         if (!response.ok) {
-        //             throw new Error('Network response was not ok');
-        //         }
-        //         return response.json();
-        //     })
-        //     .then(data => {
-        //         setData(data);
-        //         setLoading(false);
-        //     })
-        //     .catch(error => {
-        //         setError(error);
-        //         setLoading(false);
-        //     });
         if (!sentiment_summary) navigate('/import');
         setData(sentiment_summary);
         setLoading(false);

@@ -8,6 +8,9 @@ from rest_framework.parsers import JSONParser
 from django.http import JsonResponse
 from rest_framework import status
 from reviews.Classifier import Classifier
+from reviews.data_analyzer import DataAnalyzer
+from django.conf import settings
+import os
 
 import time
 classifier = Classifier()
@@ -56,6 +59,15 @@ def visualization_data(request):
 def review_feedback(request):
     if request.method == 'POST':
         data = JSONParser().parse(request)
+
+        # Convert the unique_id string to a ReviewFile instance
+        unique_id = data.get('review_file')
+        try:
+            review_file = ReviewFile.objects.get(unique_id=unique_id)
+            data['review_file'] = review_file.id
+        except ReviewFile.DoesNotExist:
+            return JsonResponse({'error': 'File is not uploaded. Please upload the file first.'}, status=status.HTTP_400_BAD_REQUEST)
+
         serializer = ReviewFeedbackSerializer(data=data)
 
         if serializer.is_valid():
@@ -67,6 +79,15 @@ def review_feedback(request):
 def interface_feedback(request):
     if request.method == 'POST':
         data = JSONParser().parse(request)
+
+        # Convert the unique_id string to a ReviewFile instance
+        unique_id = data.get('review_file')
+        try:
+            review_file = ReviewFile.objects.get(unique_id=unique_id)
+            data['review_file'] = review_file.id
+        except ReviewFile.DoesNotExist:
+            return Response({'error': 'File is not uploaded. Please upload the file first.'}, status=status.HTTP_400_BAD_REQUEST)
+
         serializer = UserInterfaceFeedbackSerializer(data=data)
 
         if serializer.is_valid():
@@ -118,6 +139,12 @@ def classify_data(request):
                 return Response({'error': 'File not found'}, status=status.HTTP_404_NOT_FOUND)
 
             output = classifier.classify(data)
+            file_path = os.path.join(settings.MEDIA_ROOT, 'uploads', os.path.basename(data['file']))
+            file_path = file_path.replace('\\', '/')
+            # Create an instance of DataAnalyzer and generate the report
+            # analyzer = DataAnalyzer(file_path)
+            # analyzer.create_report()
+            
             FileOutput.objects.create(
                 review_file=review_file,
                 review_text=output['review_text'],

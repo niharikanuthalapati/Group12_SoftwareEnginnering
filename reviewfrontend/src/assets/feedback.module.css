@@ -5,9 +5,13 @@
     height: calc(100vh - 60px); 
 }
 
-div {
+.feedbackDiv {
     box-sizing: border-box;
-}
+    background-color: rgba(255, 255, 255, 0.8); /* white background with opacity */
+    color: #4f9e9f; /* text color */
+    font-weight: bold; /* bold text */
+    padding: 40px;
+  }
 
 Navbar {
     margin-bottom: 20px;

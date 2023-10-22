@@ -25,7 +25,7 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+
         try {
             const response = await axios.post(`${apiUrl}/login/`, loginData);
             if (response.status === 200 && response.data.user) {
@@ -40,32 +40,34 @@ const Login = () => {
             }
         }
     }
-    
+
 
     return (
-        <div className="container">
-            <div className="row justify-content-center">
-                <div className="col-md-6 mt-5">
-                <img src={userlogo} alt="User Reviews" className="logo"/>
-                    <div className="card card-width">
-                        <div className="card-header">
-                            <h5 className="text-center">LOGIN</h5>
-                        </div>
-                        <div className="card-body">
-                            <form onSubmit={handleSubmit}>
-                                <div className="mb-3">
-                                    <label className="form-label">Email</label>
-                                    <input type="text" name="email" className="form-control" placeholder="Email" onChange={handleChange} />
-                                </div>
-                                <div className="mb-3">
-                                    <label className="form-label">Password</label>
-                                    <input type="password" name="password" className="form-control" placeholder="Password" onChange={handleChange} />
-                                </div>
-                                <div className="d-flex justify-content-between">
-                                    <button type="button" className="btn" onClick={handleCancel}>Cancel</button>
-                                    <button type="submit" className="btn">Login</button>
-                                </div>
-                            </form>
+        <div className="auth-background">
+            <div className="container">
+                <div className="row justify-content-center">
+                    <div className="col-md-6 mt-5">
+                        <img src={userlogo} alt="User Reviews" className="logo" />
+                        <div className="card card-width">
+                            <div className="card-header">
+                                <h5 className="text-center">LOGIN</h5>
+                            </div>
+                            <div className="card-body">
+                                <form onSubmit={handleSubmit}>
+                                    <div className="mb-3">
+                                        <label className="form-label">Email</label>
+                                        <input type="text" name="email" className="form-control" placeholder="Email" onChange={handleChange} />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label className="form-label">Password</label>
+                                        <input type="password" name="password" className="form-control" placeholder="Password" onChange={handleChange} />
+                                    </div>
+                                    <div className="d-flex justify-content-between">
+                                        <button type="button" className="btn" onClick={handleCancel}>Cancel</button>
+                                        <button type="submit" className="btn">Login</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

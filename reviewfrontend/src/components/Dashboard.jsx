@@ -3,11 +3,11 @@ import Navbar from '../shared/Navbar';
 
 const Dashboard = () => {
     return (
-        <div>
+        <div className="dashboard-background">
             <Navbar activePage="Dashboard" />
 
             <div className="container mt-5">
-                <h1 className="text-center mb-4">Welcome to the dashboard of the User Reviews Classification</h1>
+                <h1 className="text-center mb-4 welcome-text">Welcome to the dashboard of the User Reviews Classification</h1>
 
                 <div className="row">
                     <div className="col-md-3">

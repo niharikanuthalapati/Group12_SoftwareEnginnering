@@ -41,45 +41,47 @@ const Register = () => {
     }
 
     return (
-        <div className="container">
-            <div className="row justify-content-center">
-                <div className="col-md-6 mt-5">
-                <img src={userlogo} alt="User Reviews" className="logo"/>
-                    <div className="card card-width">
-                        <div className="card-header">
-                            REGISTER
-                        </div>
-                        <div className="card-body">
-                            <form onSubmit={handleSubmit}>
-                                <div className="mb-3">
-                                    <label className="form-label">First Name</label>
-                                    <input type="text" name="first_name" className="form-control" placeholder="First Name" onChange={handleChange} />
-                                </div>
-                                <div className="mb-3">
-                                    <label className="form-label">Last Name</label>
-                                    <input type="text" name="last_name" className="form-control" placeholder="Last Name" onChange={handleChange} />
-                                </div>
-                                <div className="mb-3">
-                                    <label className="form-label">Email</label>
-                                    <input type="email" name="email" className="form-control" placeholder="Email" onChange={handleChange} />
-                                </div>
-                                <div className="mb-3">
-                                    <label className="form-label">Date of Birth</label>
-                                    <input type="date" name="dob" className="form-control" onChange={handleChange} />
-                                </div>
-                                <div className="mb-3">
-                                    <label className="form-label">Password</label>
-                                    <input type="password" name="password" className="form-control" placeholder="Password" onChange={handleChange} />
-                                </div>
-                                <div className="mb-3">
-                                    <label className="form-label">Confirm Password</label>
-                                    <input type="password" name="confirm_password" className="form-control" placeholder="Confirm Password" onChange={handleChange} />
-                                </div>
-                                <div className="button-group">
-                                    <button type="button" className="btn" onClick={handleCancel}>Cancel</button>
-                                    <button type="submit" className="btn">Register</button>
-                                </div>
-                            </form>
+        <div className="auth-background">
+            <div className="container">
+                <div className="row justify-content-center">
+                    <div className="col-md-6 mt-5">
+                        <img src={userlogo} alt="User Reviews" className="logo" />
+                        <div className="card card-width">
+                            <div className="card-header">
+                                REGISTER
+                            </div>
+                            <div className="card-body">
+                                <form onSubmit={handleSubmit}>
+                                    <div className="mb-3">
+                                        <label className="form-label">First Name</label>
+                                        <input type="text" name="first_name" className="form-control" placeholder="First Name" onChange={handleChange} />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label className="form-label">Last Name</label>
+                                        <input type="text" name="last_name" className="form-control" placeholder="Last Name" onChange={handleChange} />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label className="form-label">Email</label>
+                                        <input type="email" name="email" className="form-control" placeholder="Email" onChange={handleChange} />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label className="form-label">Date of Birth</label>
+                                        <input type="date" name="dob" className="form-control" onChange={handleChange} />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label className="form-label">Password</label>
+                                        <input type="password" name="password" className="form-control" placeholder="Password" onChange={handleChange} />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label className="form-label">Confirm Password</label>
+                                        <input type="password" name="confirm_password" className="form-control" placeholder="Confirm Password" onChange={handleChange} />
+                                    </div>
+                                    <div className="button-group">
+                                        <button type="button" className="btn" onClick={handleCancel}>Cancel</button>
+                                        <button type="submit" className="btn">Register</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
