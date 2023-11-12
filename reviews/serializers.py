@@ -52,15 +52,4 @@ class ReportGeneratedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ReportGenerated
-        fields = '__all__'
-
-
-# class ReviewFeedbackSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = ReviewFeedback
-#         fields = ['email', 'starRating', 'comment']
-
-# class InterfaceFeedbackSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = InterfaceFeedback
-#         fields = ['email', 'comment']
+        fields = ['review_file', 'file_path']

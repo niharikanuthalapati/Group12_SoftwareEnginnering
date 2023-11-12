@@ -5,19 +5,38 @@ import { useNavigate } from 'react-router-dom';
 import 'chart.js/auto';
 import styles from '../assets/visualization.module.css';
 
+const colorOptions = [
+    ['#FF6384', '#36A2EB', '#FFCE56'], // Color Combo 1
+    ['#6050DC', '#D52DB7', '#FF2E63'], // Color Combo 2
+    ['#00A8E8', '#A9E34B', '#F0C808']  // Color Combo 3
+];
+
 const Visualization = () => {
     const navigate = useNavigate();
     const [selectedVisualization, setSelectedVisualization] = useState('PieChart');
     const [data, setData] = useState(null);
+    const [selectedColors, setSelectedColors] = useState(colorOptions[0]);
     const [loading, setLoading] = useState(true);
+    const [reviewText, setReviewText] = useState('');
     const [error] = useState(null);
     const sentiment_summary = JSON.parse(localStorage.getItem('sentiment_summary'))
+
     useEffect(() => {
         if (!sentiment_summary) navigate('/import');
-        setData(sentiment_summary);
+        const summaryData = sentiment_summary.sentiment_summary;
+        summaryData.datasets[0].backgroundColor = selectedColors;
+        summaryData.datasets[0].label = "Sentiment"; 
+        setData(summaryData);
+        setReviewText(sentiment_summary.review_text);
+        localStorage.setItem('colorOptions', JSON.stringify(selectedColors));
+
         setLoading(false);
-    }, []
-    );
+    }, [selectedColors]);
+
+    const handleColorChange = (colorIndex) => {
+        setSelectedColors(colorOptions[colorIndex]);
+
+    };
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error.message}</div>;
@@ -35,26 +54,56 @@ const Visualization = () => {
                     </ul>
                 </div>
                 <div className={styles.contentArea}>
-                    {selectedVisualization === 'PieChart' && <Pie data={data} key="PieChart" />}
-                    {selectedVisualization === 'BarGraph' && <Bar data={data} key="BarGraph" />}
-                    {selectedVisualization === 'TextFormat' &&
-                        <table className={styles.table}>
-                            <thead>
-                                <tr>
-                                    <th>Review Type</th>
-                                    <th>Percentage</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {data.labels.map((label, index) => (
-                                    <tr key={index}>
-                                        <td>{label}</td>
-                                        <td>{data.datasets[0].data[index]}%</td>
+                    <div className={styles.chartContainer}>
+                        {selectedVisualization === 'PieChart' && <Pie data={data} key="PieChart" />}
+                        {selectedVisualization === 'BarGraph' && <Bar data={data} key="BarGraph" />}
+                        {selectedVisualization === 'TextFormat' &&
+                            <table className={styles.table}>
+                                <thead>
+                                    <tr>
+                                        <th>Review Type</th>
+                                        <th>Total</th>
+                                        <th>Percentage</th>
                                     </tr>
+                                </thead>
+                                <tbody>
+                                    {data.labels.map((label, index) => (
+                                        <tr key={index}>
+                                            <td>{label}</td>
+                                            <td>{data.datasets[0].data[index]}</td>
+                                            <td>{data.datasets[0].percentages[index].toFixed(2)}%</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        }
+                        {selectedVisualization === 'PieChart' || selectedVisualization === 'BarGraph' ? (
+                            <div className={styles.colorOptions}>
+                                {colorOptions.map((colors, index) => (
+                                    <div key={index} className={styles.colorOption}>
+                                        <input
+                                            type="radio"
+                                            id={`colorOption${index}`}
+                                            name="colorOption"
+                                            value={index}
+                                            checked={selectedColors === colors}
+                                            onChange={() => handleColorChange(index)}
+                                        />
+                                        <label htmlFor={`colorOption${index}`}>
+                                            {colors.map((color, colorIndex) => (
+                                                <span key={colorIndex} style={{ backgroundColor: color }} className={styles.colorSwatch}></span>
+                                            ))}
+                                        </label>
+                                    </div>
                                 ))}
-                            </tbody>
-                        </table>
-                    }
+                            </div>
+                        ) : null}
+
+                    </div>
+
+                    <div className={styles.reviewText}>
+                        <p>{reviewText}</p>
+                    </div>
                 </div>
             </div>
         </div>

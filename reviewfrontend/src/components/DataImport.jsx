@@ -42,7 +42,6 @@ function DataImport() {
 
   const handleClassifyClick = async () => {
     if (uploadResponse) { 
-      console.log(uploadResponse)
       setIsLoading(true);
       try {
         const response = await axios.post(`${apiUrl}/classify-data/`, uploadResponse, {
@@ -51,7 +50,7 @@ function DataImport() {
           },
         });
         if (response.status === 200) {
-          localStorage.setItem('sentiment_summary', JSON.stringify(response.data.classified_data.sentiment_summary));
+          localStorage.setItem('sentiment_summary', JSON.stringify(response.data.classified_data));
           localStorage.setItem('uploadFile', JSON.stringify(uploadResponse));
           alert(response.data.message);
           navigate('/visualization');

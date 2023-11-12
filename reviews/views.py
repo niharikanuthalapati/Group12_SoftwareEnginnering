@@ -1,19 +1,29 @@
-from .models import CustomUser, ReviewFile, FileOutput, UserInterfaceFeedback, ReviewFeedback, ReportGenerated
-from .serializers import CustomUserSerializer, ReviewFileSerializer, FileOutputSerializer, UserInterfaceFeedbackSerializer, ReviewFeedbackSerializer, ReportGeneratedSerializer
-from django.contrib.auth import get_user_model, authenticate
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
-from rest_framework.parsers import JSONParser
-from django.http import JsonResponse
-from rest_framework import status
-from reviews.Classifier import Classifier
-from reviews.data_analyzer import DataAnalyzer
-from django.conf import settings
 import os
-
-import time
-classifier = Classifier()
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from django.core.files.storage import default_storage
+from django.conf import settings
+from rest_framework import status
+from rest_framework.parsers import JSONParser
+from django.contrib.auth import get_user_model, authenticate
+from django.http import JsonResponse
+from .models import (
+    FileOutput, 
+    ReportGenerated, 
+    ReviewFeedback, 
+    ReviewFile, 
+    UserInterfaceFeedback
+)
+from .serializers import (
+    CustomUserSerializer, 
+    ReviewFeedbackSerializer, 
+    ReviewFileSerializer, 
+    UserInterfaceFeedbackSerializer
+)
+from reviews.data_analyzer import DataAnalyzer
+from reviews.ReportGenerator import ReportGenerator
+dataAnalyzer = DataAnalyzer()
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -95,25 +105,6 @@ def interface_feedback(request):
             return Response({'message': 'Feedback submitted successfully!'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-@api_view(['GET'])
-def generate_report_data(request):
-    sample_data = {
-        "title": "Sample Report",
-        "total_reviews": 150,
-        "positive_reviews": 100,
-        "negative_reviews": 50,
-        "average_rating": 4.2,
-        "suggestions": [
-            "Improve UI",
-            "Add dark mode feature",
-            "Reduce app crashes"
-        ]
-    }
-    return Response(sample_data)
-
-
-
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def upload_review_file(request):
@@ -125,6 +116,47 @@ def upload_review_file(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def generate_report_data(request):
+    review_file_id = request.query_params.get('review_file_id')
+    colorOptions = request.query_params.getlist('colorOptions[]')
+    if not review_file_id:
+        return Response({'error': 'Please submit data file first.'}, status=400)
+
+    try:
+        review_file = ReviewFile.objects.get(id=review_file_id)
+        file_output = FileOutput.objects.get(review_file__id=review_file_id)
+        ui_feedbacks = UserInterfaceFeedback.objects.filter(review_file__id=review_file_id)
+        review_feedbacks = ReviewFeedback.objects.filter(review_file__id=review_file_id)
+
+        # Instantiate ReportGenerator and generate reports
+        report_generator = ReportGenerator(file_output, ui_feedbacks, review_feedbacks, colorOptions)
+        pdf_path = report_generator.generate_pdf_report()
+        ReportGenerated.objects.create(
+            review_file=review_file,
+            file_path = pdf_path
+        )
+
+        docx_path = report_generator.generate_docx_report()
+        ReportGenerated.objects.create(
+            review_file=review_file,
+            file_path = docx_path
+        )
+
+        # Construct response with file paths
+        response_data = {
+            'pdf_path': default_storage.url(pdf_path),
+            'docx_path': default_storage.url(docx_path),
+        }
+
+        return Response(response_data)
+
+    except FileOutput.DoesNotExist:
+        return Response({'error': 'File not found for the provided id.'}, status=404)
+    except Exception as e:
+        return Response({'error': str(e)}, status=500)
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -138,20 +170,15 @@ def classify_data(request):
             except ReviewFile.DoesNotExist:
                 return Response({'error': 'File not found'}, status=status.HTTP_404_NOT_FOUND)
 
-            output = classifier.classify(data)
             file_path = os.path.join(settings.MEDIA_ROOT, 'uploads', os.path.basename(data['file']))
             file_path = file_path.replace('\\', '/')
             # Create an instance of DataAnalyzer and generate the report
-            # analyzer = DataAnalyzer(file_path)
-            # analyzer.create_report()
-            
+            output = dataAnalyzer.analyze(file_path)
             FileOutput.objects.create(
                 review_file=review_file,
                 review_text=output['review_text'],
                 sentiment_summary=output['sentiment_summary'],
             )
-
-            time.sleep(5)  # Simulate some processing delay
             response_data = {
                 'message': 'Data classified successfully!',
                 'classified_data': output,  # Include your classified data here
