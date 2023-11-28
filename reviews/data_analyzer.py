@@ -2,6 +2,7 @@ import pandas as pd
 from textblob import TextBlob
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
+from sklearn.decomposition import PCA
 
 class DataAnalyzer:
 
@@ -56,6 +57,11 @@ class DataAnalyzer:
         km.fit(tfidf_matrix)
         clusters = km.labels_
         return clusters
+    
+    def reduce_dimensions(self, tfidf_matrix, num_components=2):
+        pca = PCA(n_components=num_components)
+        reduced_matrix = pca.fit_transform(tfidf_matrix.toarray())
+        return reduced_matrix
 
     def analyze(self, file_path):
         df = self.read_data(file_path)
@@ -72,8 +78,18 @@ class DataAnalyzer:
         cluster_labels = self.cluster_reviews(tfidf_matrix)
         analyzed_df['cluster'] = cluster_labels
         
+        # Reducing dimensions for visualization
+        reduced_matrix = self.reduce_dimensions(tfidf_matrix)
+        analyzed_df['x_coordinate'] = reduced_matrix[:, 0]
+        analyzed_df['y_coordinate'] = reduced_matrix[:, 1]
+        
         # Grouping reviews by cluster and getting sample texts
         cluster_samples = analyzed_df.groupby('cluster')['concatenated_text'].apply(lambda texts: texts.tolist()[:10]).to_dict()
+
+        # Mapping clusters to their respective points
+        cluster_points = analyzed_df.groupby('cluster').apply(
+            lambda df: [{'x': x, 'y': y} for x, y in zip(df['x_coordinate'], df['y_coordinate'])]
+        ).to_dict()
 
         # Summarizing sentiment analysis
         sentiment_summary = {
@@ -92,7 +108,8 @@ class DataAnalyzer:
         result = {
             'review_text': info['description'],
             'sentiment_summary': sentiment_summary,
-            'cluster_samples': cluster_samples
+            'cluster_samples': cluster_samples,
+            'cluster_points': cluster_points
         }
 
         return result

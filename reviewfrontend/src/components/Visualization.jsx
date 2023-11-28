@@ -4,6 +4,7 @@ import { Pie, Bar } from 'react-chartjs-2';
 import { useNavigate } from 'react-router-dom';
 import 'chart.js/auto';
 import styles from '../assets/visualization.module.css';
+import ScatterPlot from './ScatterPlot';
 
 const colorOptions = [
     ['#FF6384', '#36A2EB', '#FFCE56'], // Color Combo 1
@@ -21,6 +22,7 @@ const Visualization = () => {
     const [error] = useState(null);
     const [clusterData, setClusterData] = useState(null);
     const sentiment_summary = JSON.parse(localStorage.getItem('sentiment_summary'))
+    const [clusterPoints, setClusterPoints] = useState(null);
 
     useEffect(() => {
         if (!sentiment_summary) {
@@ -34,7 +36,12 @@ const Visualization = () => {
         setReviewText(sentiment_summary.review_text);
         setClusterData(sentiment_summary.cluster_samples);
         localStorage.setItem('colorOptions', JSON.stringify(selectedColors));
-
+        if (sentiment_summary && sentiment_summary.cluster_points && !clusterPoints) {
+            const clustersArray = Object.entries(sentiment_summary.cluster_points).map(([clusterId, points]) => {
+                return { id: parseInt(clusterId, 10) + 1, points };
+            });
+            setClusterPoints(clustersArray);
+        }
         setLoading(false);
     }, [selectedColors]);
 
@@ -56,7 +63,8 @@ const Visualization = () => {
                         <li className={selectedVisualization === 'PieChart' ? "list-group-item active" : "list-group-item"} onClick={() => setSelectedVisualization('PieChart')}>Pie Chart</li>
                         <li className={selectedVisualization === 'BarGraph' ? "list-group-item active" : "list-group-item"} onClick={() => setSelectedVisualization('BarGraph')}>Bar Graph</li>
                         <li className={selectedVisualization === 'TextFormat' ? "list-group-item active" : "list-group-item"} onClick={() => setSelectedVisualization('TextFormat')}>Text Format</li>
-                        <li className={selectedVisualization === 'Clusters' ? "list-group-item active" : "list-group-item"} onClick={() => setSelectedVisualization('Clusters')}>Clusters</li>
+                        <li className={selectedVisualization === 'Clusterspoints' ? "list-group-item active" : "list-group-item"} onClick={() => setSelectedVisualization('Clusterspoints')}>Clusters Points</li>
+                        <li className={selectedVisualization === 'Clusterstxt' ? "list-group-item active" : "list-group-item"} onClick={() => setSelectedVisualization('Clusterstxt')}>Clusters Text</li>
                     </ul>
                 </div>
                 <div className={styles.contentArea}>
@@ -83,7 +91,7 @@ const Visualization = () => {
                                 </tbody>
                             </table>
                         }
-                        {selectedVisualization === 'Clusters' &&
+                        {selectedVisualization === 'Clusterstxt' &&
                             <div className={styles.clusterContainer}>
                                 {clusterData && Object.entries(clusterData).map(([cluster, reviews], index) => (
                                     <div key={index}>
@@ -92,6 +100,9 @@ const Visualization = () => {
                                     </div>
                                 ))}
                             </div>
+                        }
+                        {selectedVisualization === 'Clusterspoints' && clusterPoints &&
+                            <ScatterPlot clusterData={clusterPoints} />
                         }
 
                         {selectedVisualization === 'PieChart' || selectedVisualization === 'BarGraph' ? (
@@ -117,8 +128,7 @@ const Visualization = () => {
                         ) : null}
 
                     </div>
-                    {selectedVisualization !== 'Clusters' &&
-
+                    {selectedVisualization !== 'Clusterstxt' && selectedVisualization !== 'Clusterspoints' &&
                         <div className={styles.reviewText}>
                             <p>{reviewText}</p>
                         </div>

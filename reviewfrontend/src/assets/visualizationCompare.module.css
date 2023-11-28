@@ -70,6 +70,15 @@
     max-height: 400px; 
     margin-bottom: 30px;
 }
+.pointContainer {
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 300px; 
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
 
 .clustersContainer {
     display: flex;
