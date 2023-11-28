@@ -31,7 +31,7 @@ const Register = () => {
             return;
         }
         try {
-            await axios.post(`${apiUrl}/register/`, registerData);
+            await axios.post(`${apiUrl}/register-api/`, registerData);
             alert('Registration successful');
             // Actions after successful registration
             navigate('/login');

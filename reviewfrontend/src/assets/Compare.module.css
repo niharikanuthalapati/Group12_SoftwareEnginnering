@@ -1,0 +1,72 @@
+.container {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+}
+
+.fileUploadContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.dragDropSection {
+    border: 1px solid #e0e0e0;
+    padding: 30px;
+    border-radius: 10px;
+    width: 45%;
+    text-align: center;
+    background-color: white;
+    margin: 10px;
+}
+
+.dragDropBox {
+    border: 2px dashed #d0d0d0;
+    padding: 30px;
+    border-radius: 10px;
+    margin: 20px 0;
+    position: relative;
+    background-color: #f0f0f0;
+}
+
+.iconBox {
+    display: inline-block;
+    font-size: 30px;
+    color: #8a8a8a;
+}
+
+.errorMessage {
+    color: red;
+    margin: 10px 0;
+    text-align: center; /* Center the error message */
+}
+
+.btn {
+    margin: 5px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    font-weight: bold;
+}
+
+.btnCancel, .btnCompare {
+    background-color: #ff4d4d;
+    color: white;
+}
+
+.btnCompare {
+    background-color: #4CAF50;
+    width: 200px;
+    margin-top: 20px;
+}
+
+.loadingGraphics {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -21,10 +21,9 @@
 }
 
 .table {
-    width: 80%;
-    margin: 0 auto; 
     border-collapse: collapse;
-    margin-top: 20px;
+    margin: 20px 5px;
+    margin-top: 0px;
 }
 
 .table th,
@@ -64,7 +63,15 @@
 }
 
 .chartContainer {
-    width: 100%;
+    width: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 400px; 
+    margin-bottom: 30px;
+}
+
+.clustersContainer {
     display: flex;
     justify-content: center;
     align-items: center;

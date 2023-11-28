@@ -19,15 +19,20 @@ const Visualization = () => {
     const [loading, setLoading] = useState(true);
     const [reviewText, setReviewText] = useState('');
     const [error] = useState(null);
+    const [clusterData, setClusterData] = useState(null);
     const sentiment_summary = JSON.parse(localStorage.getItem('sentiment_summary'))
 
     useEffect(() => {
-        if (!sentiment_summary) navigate('/import');
+        if (!sentiment_summary) {
+            navigate('/import');
+            return;
+        }
         const summaryData = sentiment_summary.sentiment_summary;
         summaryData.datasets[0].backgroundColor = selectedColors;
-        summaryData.datasets[0].label = "Sentiment"; 
+        summaryData.datasets[0].label = "Sentiment";
         setData(summaryData);
         setReviewText(sentiment_summary.review_text);
+        setClusterData(sentiment_summary.cluster_samples);
         localStorage.setItem('colorOptions', JSON.stringify(selectedColors));
 
         setLoading(false);
@@ -51,6 +56,7 @@ const Visualization = () => {
                         <li className={selectedVisualization === 'PieChart' ? "list-group-item active" : "list-group-item"} onClick={() => setSelectedVisualization('PieChart')}>Pie Chart</li>
                         <li className={selectedVisualization === 'BarGraph' ? "list-group-item active" : "list-group-item"} onClick={() => setSelectedVisualization('BarGraph')}>Bar Graph</li>
                         <li className={selectedVisualization === 'TextFormat' ? "list-group-item active" : "list-group-item"} onClick={() => setSelectedVisualization('TextFormat')}>Text Format</li>
+                        <li className={selectedVisualization === 'Clusters' ? "list-group-item active" : "list-group-item"} onClick={() => setSelectedVisualization('Clusters')}>Clusters</li>
                     </ul>
                 </div>
                 <div className={styles.contentArea}>
@@ -77,6 +83,17 @@ const Visualization = () => {
                                 </tbody>
                             </table>
                         }
+                        {selectedVisualization === 'Clusters' &&
+                            <div className={styles.clusterContainer}>
+                                {clusterData && Object.entries(clusterData).map(([cluster, reviews], index) => (
+                                    <div key={index}>
+                                        <h3 className={styles.clusterHeading}>Cluster {parseInt(cluster) + 1}</h3>
+                                        <div className={styles.clusterContent}>[{reviews.join(', ')}]</div>
+                                    </div>
+                                ))}
+                            </div>
+                        }
+
                         {selectedVisualization === 'PieChart' || selectedVisualization === 'BarGraph' ? (
                             <div className={styles.colorOptions}>
                                 {colorOptions.map((colors, index) => (
@@ -100,10 +117,12 @@ const Visualization = () => {
                         ) : null}
 
                     </div>
+                    {selectedVisualization !== 'Clusters' &&
 
-                    <div className={styles.reviewText}>
-                        <p>{reviewText}</p>
-                    </div>
+                        <div className={styles.reviewText}>
+                            <p>{reviewText}</p>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

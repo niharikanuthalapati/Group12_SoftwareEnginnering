@@ -50,21 +50,6 @@ def login(request):
         return Response({"error": "Invalid email or password"}, status=400)
 
 
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def visualization_data(request):
-    # Sample data for visualization
-    data = {
-        'labels': ['Positive', 'Neutral', 'Negative'],
-        'datasets': [{
-            'data': [50, 30, 20],
-            'backgroundColor': ['green', 'yellow', 'red'],
-        }]
-    }
-    return Response(data)
-
-
-
 @api_view(['POST'])
 def review_feedback(request):
     if request.method == 'POST':

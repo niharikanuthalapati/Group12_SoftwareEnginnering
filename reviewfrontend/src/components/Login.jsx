@@ -27,7 +27,7 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post(`${apiUrl}/login/`, loginData);
+            const response = await axios.post(`${apiUrl}/login-api/`, loginData);
             if (response.status === 200 && response.data.user) {
                 setUser(response.data.user);
                 localStorage.setItem('user', JSON.stringify(response.data.user)); // Store user in local storage

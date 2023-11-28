@@ -9,6 +9,8 @@ import DataImport from "./components/DataImport";
 import Visualization from "./components/Visualization";
 import Feedback from "./components/Feedback";
 import ReportGeneration from "./components/ReportGeneration";
+import Compare from "./components/Compare";
+import VisualizationCompare from "./components/VisualizationCompare";
 
 
 function PrivateRoute({ children }) {
@@ -47,6 +49,8 @@ function App() {
         
         <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
         <Route path="/import" element={<PrivateRoute><DataImport /></PrivateRoute>} />
+        <Route path="/compare" element={<PrivateRoute><Compare /></PrivateRoute>} />
+        <Route path="/VisualizationCompare" element={<PrivateRoute><VisualizationCompare /></PrivateRoute>} />
         <Route path="/visualization" element={<PrivateRoute><Visualization /></PrivateRoute>} />
         <Route path="/feedback" element={<PrivateRoute><Feedback /></PrivateRoute>} />
         <Route path="/report" element={<PrivateRoute><ReportGeneration /></PrivateRoute>} />

@@ -30,11 +30,28 @@ ALLOWED_HOSTS = ['52.52.129.243', 'localhost', '127.0.0.1']
 # CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React default dev server
-    "http://127.0.0.1:9000",  # Your custom server address
-    "http://52.52.129.243:3000"
+    "http://127.0.0.1:8000",  # Your custom server address
+    "http://127.0.0.1:80",  # Your custom server address
+    "http://52.52.129.243:3000",
+    "http://52.52.129.243",
+    "http://52.52.129.243:80"
     # Add any other origins that should be allowed
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'http://52.52.129.243',
+    'https://52.52.129.243',
+    'http://www.52.52.129.243',
+    'https://www.52.52.129.243',
+    'http://localhost:3000',
+    # ... other trusted origins
+]
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',  # The origin your React app is served 
+    'http://52.52.129.243',
+    "http://52.52.129.243:80"
+]
 
 AUTH_USER_MODEL = 'reviews.CustomUser'
 
@@ -69,7 +86,7 @@ ROOT_URLCONF = 'user_review.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, "static")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -136,7 +153,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'reviews', 'static'),
+    os.path.join(BASE_DIR,'static'),
 ]
 
 # Media files (uploaded by users, etc.)

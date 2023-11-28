@@ -17,7 +17,8 @@ const Navbar = ({ activePage }) => {
                 <a className={`nav-item nav-link ${activePage === "DataImport" ? "active" : ""}`} href="import">Data Import</a>
                 <a className={`nav-item nav-link ${activePage === "Visualization" ? "active" : ""}`} href="visualization">Visualization</a>
                 <a className={`nav-item nav-link ${activePage === "Feedback" ? "active" : ""}`} href="feedback">Feedback</a>
-                <a className={`nav-item nav-link ${activePage === "ReportGeneration" ? "active" : ""}`} href="report">Report Generation</a>
+                <a className={`nav-item nav-link ${activePage === "ReportGeneration" ? "active" : ""}`} href="report">Report</a>
+                <a className={`nav-item nav-link ${activePage === "Compare" ? "active" : ""}`} href="compare">Compare</a>
             </div>
             <div className="user-info">
                 {user && <span className="navbar-text">Welcome, {user.first_name}!</span>}
